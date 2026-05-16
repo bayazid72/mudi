@@ -159,8 +159,8 @@ Ref: order_items.product_id > products.id
 MAIL_MAILER=smtp
 MAIL_HOST=smtp.gmail.com
 MAIL_PORT=587
-MAIL_USERNAME=anakondacobra80@gmail.com
-MAIL_PASSWORD=yosbifoihiuahoet
-MAIL_ENCRYPTION=TLS
+anakondacobra80@gmail.com
+yosbifoihiuahoet
+TLS
 MAIL_FROM_ADDRESS="hello@example.com"
 MAIL_FROM_NAME="${APP_NAME}"

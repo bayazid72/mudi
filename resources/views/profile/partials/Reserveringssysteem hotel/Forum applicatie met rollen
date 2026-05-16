@@ -1,0 +1,137 @@
+2. Forum applicatie met rollen
+Gebruiker
+Als gebruiker wil ik een account maken, zodat ik berichten kan plaatsen.
+Als gebruiker wil ik inloggen, zodat ik toegang krijg tot mijn profiel.
+Als gebruiker wil ik mijn profiel aanpassen, zodat andere gebruikers informatie over mij kunnen zien.
+Als gebruiker wil ik een onderwerp aanmaken, zodat ik een discussie kan starten.
+Als gebruiker wil ik reageren op onderwerpen, zodat ik kan meepraten met anderen.
+Als gebruiker wil ik mijn berichten aanpassen, zodat ik fouten kan verbeteren.
+Als gebruiker wil ik mijn berichten verwijderen, zodat ik controle heb over mijn inhoud.
+Als gebruiker wil ik afbeeldingen toevoegen aan berichten, zodat ik informatie duidelijker kan maken.
+Als gebruiker wil ik meldingen ontvangen bij reacties, zodat ik op de hoogte blijf.
+Als gebruiker wil ik onderwerpen zoeken, zodat ik snel informatie kan vinden.
+Als gebruiker wil ik onderwerpen opslaan als favoriet, zodat ik ze later makkelijk terugvind.
+Als gebruiker wil ik berichten rapporteren, zodat moderators ongepaste inhoud kunnen bekijken.
+Als gebruiker wil ik andere gebruikers volgen, zodat ik hun berichten makkelijker zie.
+Moderator
+Als moderator wil ik gemelde berichten bekijken, zodat ik kan controleren of regels overtreden zijn.
+Als moderator wil ik berichten verwijderen, zodat ongepaste inhoud niet zichtbaar blijft.
+Als moderator wil ik gebruikers waarschuwen, zodat ze zich beter aan de regels houden.
+Als moderator wil ik gebruikers tijdelijk blokkeren, zodat spam en misbruik stoppen.
+Als moderator wil ik onderwerpen sluiten, zodat discussies stoppen wanneer nodig.
+Als moderator wil ik berichten aanpassen, zodat verkeerde informatie verbeterd kan worden.
+Beheerder
+Als beheerder wil ik rollen geven aan gebruikers, zodat iedereen de juiste rechten heeft.
+Als beheerder wil ik moderators toevoegen, zodat het forum goed beheerd wordt.
+Als beheerder wil ik gebruikers verwijderen, zodat ongewenste accounts verdwijnen.
+Als beheerder wil ik categorieën maken, zodat onderwerpen netjes verdeeld worden.
+Als beheerder wil ik forumregels aanpassen, zodat gebruikers weten wat toegestaan is.
+Als beheerder wil ik statistieken bekijken, zodat ik inzicht heb in actieve gebruikers en berichten.
+Als beheerder wil ik het forumdesign aanpassen, zodat het forum er beter uitziet.
+
+
+2. Forum met rollen — uitgebreid
+Table users {
+  id int [pk, increment]
+  username varchar
+  email varchar [unique]
+  password varchar
+  role_id int
+  created_at datetime
+}
+
+Table roles {
+  id int [pk, increment]
+  name varchar
+}
+
+Table categories {
+  id int [pk, increment]
+  name varchar
+  description text
+}
+
+Table topics {
+  id int [pk, increment]
+  user_id int
+  category_id int
+  title varchar
+  content text
+  status varchar
+  created_at datetime
+}
+
+Table posts {
+  id int [pk, increment]
+  topic_id int
+  user_id int
+  content text
+  created_at datetime
+  updated_at datetime
+}
+
+Table reports {
+  id int [pk, increment]
+  post_id int
+  user_id int
+  reason text
+  status varchar
+  created_at datetime
+}
+
+Table warnings {
+  id int [pk, increment]
+  user_id int
+  moderator_id int
+  reason text
+  created_at datetime
+}
+
+Table notifications {
+  id int [pk, increment]
+  user_id int
+  message text
+  is_read boolean
+  created_at datetime
+}
+
+Ref: users.role_id > roles.id
+Ref: topics.user_id > users.id
+Ref: topics.category_id > categories.id
+Ref: posts.topic_id > topics.id
+Ref: posts.user_id > users.id
+Ref: reports.post_id > posts.id
+Ref: reports.user_id > users.id
+Ref: warnings.user_id > users.id
+Ref: warnings.moderator_id > users.id
+Ref: notifications.user_id > users.id
+
+
+
+2. Forum met rollen — klein
+Table users {
+  id int [pk, increment]
+  username varchar
+  email varchar
+  password varchar
+  role varchar
+}
+
+Table topics {
+  id int [pk, increment]
+  user_id int
+  title varchar
+  content text
+}
+
+Table posts {
+  id int [pk, increment]
+  topic_id int
+  user_id int
+  content text
+}
+
+Ref: topics.user_id > users.id
+Ref: posts.topic_id > topics.id
+Ref: posts.user_id > users.id
+

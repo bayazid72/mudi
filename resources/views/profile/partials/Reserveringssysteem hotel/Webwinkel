@@ -1,0 +1,166 @@
+Klant
+Als klant wil ik een account maken, zodat ik kan inloggen en mijn bestellingen kan bewaren.
+Als klant wil ik inloggen, zodat ik toegang heb tot mijn persoonlijke gegevens.
+Als klant wil ik uitloggen, zodat mijn account veilig blijft.
+Als klant wil ik producten bekijken, zodat ik kan zien wat de winkel verkoopt.
+Als klant wil ik producten zoeken op naam, zodat ik snel een product kan vinden.
+Als klant wil ik producten filteren op prijs, merk of categorie, zodat ik makkelijker een keuze kan maken.
+Als klant wil ik productinformatie bekijken, zodat ik weet wat de prijs, beschrijving en voorraad is.
+Als klant wil ik productfoto’s bekijken, zodat ik het product beter kan zien.
+Als klant wil ik producten toevoegen aan mijn winkelwagen, zodat ik meerdere producten tegelijk kan kopen.
+Als klant wil ik producten verwijderen uit mijn winkelwagen, zodat ik mijn bestelling kan aanpassen.
+Als klant wil ik het totaalbedrag zien, zodat ik weet hoeveel ik moet betalen.
+Als klant wil ik mijn adres invullen, zodat mijn bestelling bezorgd kan worden.
+Als klant wil ik kiezen tussen verschillende betaalmethodes, zodat ik makkelijk kan betalen.
+Als klant wil ik veilig online betalen, zodat mijn gegevens beschermd blijven.
+Als klant wil ik een bevestiging ontvangen na mijn bestelling, zodat ik weet dat alles gelukt is.
+Als klant wil ik mijn bestelgeschiedenis bekijken, zodat ik eerdere bestellingen terug kan vinden.
+Als klant wil ik de status van mijn bestelling zien, zodat ik weet wanneer deze aankomt.
+Als klant wil ik een review schrijven over een product, zodat ik mijn ervaring kan delen.
+Als klant wil ik mijn wachtwoord aanpassen, zodat mijn account veilig blijft.
+Beheerder
+Als beheerder wil ik producten toevoegen, zodat klanten nieuwe producten kunnen kopen.
+Als beheerder wil ik producten aanpassen, zodat informatie altijd correct is.
+Als beheerder wil ik producten verwijderen, zodat oude producten niet meer zichtbaar zijn.
+Als beheerder wil ik productcategorieën maken, zodat producten overzichtelijk blijven.
+Als beheerder wil ik voorraad beheren, zodat klanten geen producten bestellen die op zijn.
+Als beheerder wil ik prijzen aanpassen, zodat aanbiedingen mogelijk zijn.
+Als beheerder wil ik bestellingen bekijken, zodat ik ze kan verwerken.
+Als beheerder wil ik de status van bestellingen aanpassen, zodat klanten weten wat er gebeurt.
+Als beheerder wil ik gebruikers beheren, zodat ik accounts kan blokkeren of aanpassen.
+Als beheerder wil ik reviews verwijderen, zodat ongepaste reacties verdwijnen.
+Als beheerder wil ik verkoopcijfers bekijken, zodat ik inzicht heb in de winkelprestaties.
+
+
+1. Webwinkel — uitgebreid
+Table users {
+  id int [pk, increment]
+  name varchar
+  email varchar [unique]
+  password varchar
+  role varchar
+  created_at datetime
+}
+
+Table products {
+  id int [pk, increment]
+  category_id int
+  name varchar
+  description text
+  price decimal
+  stock int
+  image varchar
+  created_at datetime
+}
+
+Table categories {
+  id int [pk, increment]
+  name varchar
+}
+
+Table carts {
+  id int [pk, increment]
+  user_id int
+  created_at datetime
+}
+
+Table cart_items {
+  id int [pk, increment]
+  cart_id int
+  product_id int
+  quantity int
+}
+
+Table orders {
+  id int [pk, increment]
+  user_id int
+  total_price decimal
+  status varchar
+  address text
+  created_at datetime
+}
+
+Table order_items {
+  id int [pk, increment]
+  order_id int
+  product_id int
+  quantity int
+  price decimal
+}
+
+Table payments {
+  id int [pk, increment]
+  order_id int
+  method varchar
+  status varchar
+  paid_at datetime
+}
+
+Table reviews {
+  id int [pk, increment]
+  user_id int
+  product_id int
+  rating int
+  comment text
+  created_at datetime
+}
+
+Ref: products.category_id > categories.id
+Ref: carts.user_id > users.id
+Ref: cart_items.cart_id > carts.id
+Ref: cart_items.product_id > products.id
+Ref: orders.user_id > users.id
+Ref: order_items.order_id > orders.id
+Ref: order_items.product_id > products.id
+Ref: payments.order_id > orders.id
+Ref: reviews.user_id > users.id
+Ref: reviews.product_id > products.id
+
+
+
+
+1. Webwinkel — klein
+Table users {
+  id int [pk, increment]
+  name varchar
+  email varchar
+  password varchar
+  role varchar
+}
+
+Table products {
+  id int [pk, increment]
+  name varchar
+  price decimal
+  stock int
+}
+
+Table orders {
+  id int [pk, increment]
+  user_id int
+  total_price decimal
+  status varchar
+}
+
+Table order_items {
+  id int [pk, increment]
+  order_id int
+  product_id int
+  quantity int
+}
+
+Ref: orders.user_id > users.id
+Ref: order_items.order_id > orders.id
+Ref: order_items.product_id > products.id
+
+
+
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=anakondacobra80@gmail.com
+MAIL_PASSWORD=yosbifoihiuahoet
+MAIL_ENCRYPTION=TLS
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"

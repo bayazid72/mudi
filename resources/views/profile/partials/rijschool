@@ -1,0 +1,135 @@
+4. Rijschool systeem
+Leerling
+Als leerling wil ik een account maken, zodat ik mijn lessen online kan beheren.
+Als leerling wil ik inloggen, zodat ik mijn planning kan bekijken.
+Als leerling wil ik rijlessen plannen, zodat ik zelf een geschikte datum kan kiezen.
+Als leerling wil ik rijlessen annuleren, zodat ik mij kan afmelden wanneer nodig.
+Als leerling wil ik mij ziek melden, zodat de instructeur weet waarom ik afwezig ben.
+Als leerling wil ik mijn voortgang bekijken, zodat ik weet welke onderdelen ik nog moet oefenen.
+Als leerling wil ik zien hoeveel lessen ik nog heb, zodat ik weet hoeveel ik nog moet rijden.
+Als leerling wil ik meldingen ontvangen voor lessen, zodat ik afspraken niet vergeet.
+Als leerling wil ik mijn betalingen bekijken, zodat ik weet welke lessen betaald zijn.
+Als leerling wil ik feedback van de instructeur lezen, zodat ik mezelf kan verbeteren.
+Instructeur
+Als instructeur wil ik lessen plannen, zodat leerlingen ingepland worden.
+Als instructeur wil ik lessen aanpassen, zodat de planning klopt.
+Als instructeur wil ik afmeldingen zien, zodat ik weet welke leerlingen niet komen.
+Als instructeur wil ik ziekte meldingen ontvangen, zodat ik mijn planning kan aanpassen.
+Als instructeur wil ik voortgang bijhouden van leerlingen, zodat ik hun ontwikkeling kan volgen.
+Als instructeur wil ik feedback geven na een les, zodat leerlingen weten wat beter moet.
+Als instructeur wil ik het lesschema bekijken, zodat ik overzicht heb van mijn dagplanning.
+Beheerder
+Als beheerder wil ik leerlingen beheren, zodat gegevens correct blijven.
+Als beheerder wil ik instructeurs beheren, zodat lessen goed verdeeld worden.
+Als beheerder wil ik rapporten bekijken, zodat ik inzicht heb in de prestaties van de rijschool.
+Als beheerder wil ik betalingen beheren, zodat openstaande bedragen zichtbaar zijn.
+Als beheerder wil ik lessen verwijderen of aanpassen, zodat fouten opgelost kunnen worden.
+Als beheerder wil ik meldingen versturen, zodat leerlingen en instructeurs belangrijke informatie ontvangen.
+
+
+4. Rijschool — uitgebreid
+Table users {
+  id int [pk, increment]
+  name varchar
+  email varchar [unique]
+  password varchar
+  role varchar
+  phone varchar
+  created_at datetime
+}
+
+Table lessons {
+  id int [pk, increment]
+  student_id int
+  instructor_id int
+  lesson_date datetime
+  status varchar
+  location varchar
+}
+
+Table cancellations {
+  id int [pk, increment]
+  lesson_id int
+  user_id int
+  reason text
+  created_at datetime
+}
+
+Table sick_reports {
+  id int [pk, increment]
+  user_id int
+  lesson_id int
+  reason text
+  created_at datetime
+}
+
+Table progress {
+  id int [pk, increment]
+  student_id int
+  instructor_id int
+  lesson_id int
+  skill varchar
+  score int
+  feedback text
+  created_at datetime
+}
+
+Table payments {
+  id int [pk, increment]
+  student_id int
+  amount decimal
+  status varchar
+  paid_at datetime
+}
+
+Table notifications {
+  id int [pk, increment]
+  user_id int
+  message text
+  is_read boolean
+  created_at datetime
+}
+
+Ref: lessons.student_id > users.id
+Ref: lessons.instructor_id > users.id
+Ref: cancellations.lesson_id > lessons.id
+Ref: cancellations.user_id > users.id
+Ref: sick_reports.user_id > users.id
+Ref: sick_reports.lesson_id > lessons.id
+Ref: progress.student_id > users.id
+Ref: progress.instructor_id > users.id
+Ref: progress.lesson_id > lessons.id
+Ref: payments.student_id > users.id
+Ref: notifications.user_id > users.id
+
+
+
+4. Rijschool — klein
+Table users {
+  id int [pk, increment]
+  name varchar
+  email varchar
+  password varchar
+  role varchar
+}
+
+Table lessons {
+  id int [pk, increment]
+  student_id int
+  instructor_id int
+  lesson_date datetime
+  status varchar
+}
+
+Table progress {
+  id int [pk, increment]
+  student_id int
+  lesson_id int
+  feedback text
+  score int
+}
+
+Ref: lessons.student_id > users.id
+Ref: lessons.instructor_id > users.id
+Ref: progress.student_id > users.id
+Ref: progress.lesson_id > lessons.id

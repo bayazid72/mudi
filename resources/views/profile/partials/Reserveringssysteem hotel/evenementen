@@ -1,0 +1,127 @@
+3. Reserveringssysteem hotel / evenementen
+Klant
+Als klant wil ik beschikbare kamers of tickets bekijken, zodat ik kan kiezen wat ik wil reserveren.
+Als klant wil ik zoeken op datum, locatie of prijs, zodat ik sneller een geschikte optie vind.
+Als klant wil ik details bekijken van kamers of evenementen, zodat ik weet wat inbegrepen is.
+Als klant wil ik zien hoeveel plaatsen nog beschikbaar zijn, zodat ik weet of ik nog kan boeken.
+Als klant wil ik een reservering maken, zodat mijn plaats vastligt.
+Als klant wil ik mijn gegevens invullen, zodat de reservering op mijn naam staat.
+Als klant wil ik online betalen, zodat mijn reservering direct bevestigd wordt.
+Als klant wil ik een bevestiging per e-mail ontvangen, zodat ik bewijs heb van mijn reservering.
+Als klant wil ik mijn reserveringen bekijken, zodat ik mijn boekingen kan controleren.
+Als klant wil ik mijn reservering wijzigen, zodat ik fouten of plannen kan aanpassen.
+Als klant wil ik mijn reservering annuleren, zodat ik niet vastzit aan de boeking.
+Als klant wil ik een ticket downloaden, zodat ik toegang krijg tot het evenement.
+Als klant wil ik herinneringen ontvangen, zodat ik mijn reservering niet vergeet.
+Medewerker
+Als medewerker wil ik reserveringen bekijken, zodat ik klanten kan helpen.
+Als medewerker wil ik reserveringen aanpassen, zodat wijzigingen verwerkt kunnen worden.
+Als medewerker wil ik klanten inchecken, zodat aanwezigheid geregistreerd wordt.
+Als medewerker wil ik betalingen controleren, zodat ik weet welke reserveringen betaald zijn.
+Als medewerker wil ik klantgegevens bekijken, zodat ik reserveringen kan bevestigen.
+Beheerder
+Als beheerder wil ik kamers of evenementen toevoegen, zodat klanten kunnen boeken.
+Als beheerder wil ik prijzen aanpassen, zodat tarieven actueel blijven.
+Als beheerder wil ik beschikbaarheid beheren, zodat dubbele boekingen voorkomen worden.
+Als beheerder wil ik reserveringen verwijderen, zodat fouten opgelost kunnen worden.
+Als beheerder wil ik statistieken bekijken, zodat ik inzicht heb in bezetting en verkopen.
+Als beheerder wil ik medewerkers beheren, zodat iedereen de juiste toegang heeft.
+
+
+3. Reserveringssysteem hotel / evenementen — uitgebreid
+Table users {
+  id int [pk, increment]
+  name varchar
+  email varchar [unique]
+  password varchar
+  role varchar
+  created_at datetime
+}
+
+Table locations {
+  id int [pk, increment]
+  name varchar
+  address text
+}
+
+Table reservations {
+  id int [pk, increment]
+  user_id int
+  reservable_id int
+  reservable_type varchar
+  reservation_date date
+  status varchar
+  total_price decimal
+  created_at datetime
+}
+
+Table reservables {
+  id int [pk, increment]
+  location_id int
+  name varchar
+  type varchar
+  description text
+  price decimal
+  capacity int
+  available boolean
+}
+
+Table payments {
+  id int [pk, increment]
+  reservation_id int
+  method varchar
+  status varchar
+  paid_at datetime
+}
+
+Table tickets {
+  id int [pk, increment]
+  reservation_id int
+  ticket_code varchar
+  checked_in boolean
+}
+
+Table checkins {
+  id int [pk, increment]
+  reservation_id int
+  employee_id int
+  checked_in_at datetime
+}
+
+Ref: reservables.location_id > locations.id
+Ref: reservations.user_id > users.id
+Ref: reservations.reservable_id > reservables.id
+Ref: payments.reservation_id > reservations.id
+Ref: tickets.reservation_id > reservations.id
+Ref: checkins.reservation_id > reservations.id
+Ref: checkins.employee_id > users.id
+
+
+
+3. Reserveringssysteem — klein
+Table users {
+  id int [pk, increment]
+  name varchar
+  email varchar
+  password varchar
+  role varchar
+}
+
+Table reservables {
+  id int [pk, increment]
+  name varchar
+  type varchar
+  price decimal
+  available boolean
+}
+
+Table reservations {
+  id int [pk, increment]
+  user_id int
+  reservable_id int
+  reservation_date date
+  status varchar
+}
+
+Ref: reservations.user_id > users.id
+Ref: reservations.reservable_id > reservables.id

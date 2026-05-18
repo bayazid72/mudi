@@ -15,6 +15,29 @@
             </div>
         @endif
 
+        <form method="GET" action="{{ route('admin.users.index') }}" class="mb-4 flex gap-2">
+            <input type="text"
+                   name="search"
+                   value="{{ request('search') }}"
+                   placeholder="Zoek naam of email..."
+                   class="border p-2 rounded w-full">
+
+            <select name="role" class="border p-2 rounded">
+                <option value="">Alle rollen</option>
+                <option value="admin" @selected(request('role') === 'admin')>Admin</option>
+                <option value="user" @selected(request('role') === 'user')>Gebruiker</option>
+            </select>
+
+            <button class="bg-blue-600 text-black px-4 py-2 rounded">
+                Zoeken
+            </button>
+
+            <a href="{{ route('admin.users.index') }}"
+               class="bg-gray-300 text-black px-4 py-2 rounded">
+                Reset
+            </a>
+        </form>
+
         <table class="w-full border">
             <thead>
                 <tr class="bg-gray-100">
@@ -26,20 +49,44 @@
             </thead>
 
             <tbody>
-                @foreach($users as $user)
+                @forelse($users as $user)
                     <tr>
                         <td class="border p-2">{{ $user->name }}</td>
                         <td class="border p-2">{{ $user->email }}</td>
                         <td class="border p-2">{{ $user->role }}</td>
-                        <td class="border p-2">
-                        <a href="{{ route('admin.users.edit', $user) }}"
-                        class="text-blue-600">
-                            Bewerken
-                        </a>
-                    </td>
 
-                @endforeach
+                        <td class="border p-2">
+                            <a href="{{ route('admin.users.edit', $user) }}"
+                               class="text-blue-600">
+                                Bewerken
+                            </a>
+
+                            <form method="POST"
+                                  action="{{ route('admin.users.destroy', $user) }}"
+                                  class="inline">
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit"
+                                        onclick="return confirm('Weet je zeker?')"
+                                        class="text-red-600 ml-3">
+                                    Verwijderen
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" class="border p-4 text-center">
+                            Geen gebruikers gevonden.
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
+
+        <div class="mt-4">
+            {{ $users->links() }}
+        </div>
     </div>
 </x-app-layout>

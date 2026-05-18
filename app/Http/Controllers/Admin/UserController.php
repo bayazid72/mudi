@@ -9,12 +9,23 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::latest()->get();
+        $users = User::query()
+            ->when($request->search, function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            })
+            ->when($request->role, function ($query, $role) {
+                $query->where('role', $role);
+            })
+            ->latest()
+            ->paginate(5)
+            ->withQueryString();
 
         return view('admin.index', compact('users'));
     }
+
 
     public function create()
     {
@@ -62,5 +73,13 @@ class UserController extends Controller
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Gebruiker aangepast!');
+    }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return redirect()->route('admin.users.index')
+            ->with('success', 'Gebruiker verwijderd!');
     }
 }

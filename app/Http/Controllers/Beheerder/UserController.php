@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\beheerder;
 
 // Controller basis class
 use App\Http\Controllers\Controller;
@@ -36,20 +36,20 @@ class UserController extends Controller
             // Nieuwste gebruikers eerst
             ->latest()
 
-            // 5 gebruikers per pagina
+            // gebruikers per pagina
             ->paginate(5)
 
             // Zoek/filter behouden bij paginatie
             ->withQueryString();
 
         // Stuur gebruikers naar de view
-        return view('admin.index', compact('users'));
+        return view('beheerder.index', compact('users'));
     }
 
     // Toon formulier om gebruiker toe te voegen
     public function create()
     {
-        return view('admin.create');
+        return view('beheerder.create');
     }
 
     // Sla nieuwe gebruiker op
@@ -60,7 +60,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
-            'role' => 'required|in:admin,ophaler,invoerder',
+            'role' => 'required|in:beheerder,ophaler,invoerder',
         ]);
 
         // Maak gebruiker aan
@@ -75,14 +75,14 @@ class UserController extends Controller
         ]);
 
         // Terug naar gebruikerslijst
-        return redirect()->route('admin.users.index')
+        return redirect()->route('beheerder.users.index')
             ->with('success', 'Gebruiker toegevoegd!');
     }
 
     // Toon formulier om gebruiker te bewerken
     public function edit(User $user)
     {
-        return view('admin.edit', compact('user'));
+        return view('beheerder.edit', compact('user'));
     }
 
     // Werk gebruiker bij
@@ -95,7 +95,7 @@ class UserController extends Controller
             // Email moet uniek zijn, behalve voor deze gebruiker
             'email' => 'required|email|unique:users,email,' . $user->id,
 
-            'role' => 'required|in:admin,ophaler,invoerder',
+            'role' => 'required|in:beheerder,ophaler,invoerder',
         ]);
 
         // Update gebruiker
@@ -106,7 +106,7 @@ class UserController extends Controller
         ]);
 
         // Terug naar gebruikerslijst
-        return redirect()->route('admin.users.index')
+        return redirect()->route('beheerder.users.index')
             ->with('success', 'Gebruiker aangepast!');
     }
 
@@ -114,15 +114,15 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        // Admin mag zichzelf niet verwijderen
+        // beheerder mag zichzelf niet verwijderen
         if (auth()->id() === $user->id) {
-            return redirect()->route('admin.users.index')
+            return redirect()->route('beheerder.users.index')
                 ->with('error', 'Je kunt jezelf niet verwijderen!');
         }
 
         $user->delete();
 
-        return redirect()->route('admin.users.index')
+        return redirect()->route('beheerder.users.index')
             ->with('success', 'Gebruiker verwijderd!');
     }
 }

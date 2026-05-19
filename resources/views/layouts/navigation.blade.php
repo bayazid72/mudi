@@ -9,9 +9,9 @@
                 </div>
 
 
-                @if(Auth::user()->role === 'admin')
+                @if(Auth::user()->role === 'beheerder')
                     <div class="hidden sm:flex sm:ml-10 space-x-8">
-                        <a href="{{ route('admin.users.index') }}" class="inline-flex items-center text-gray-700 dark:text-gray-300">
+                        <a href="{{ route('beheerder.users.index') }}" class="inline-flex items-center text-gray-700 dark:text-gray-300">
                             Gebruikers Beheer
                         </a>
                     </div>

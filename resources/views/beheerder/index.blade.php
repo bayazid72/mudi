@@ -3,7 +3,7 @@
         <div class="flex justify-between mb-4">
             <h1 class="text-2xl font-bold">Gebruikers</h1>
 
-            <a href="{{ route('admin.users.create') }}"
+            <a href="{{ route('beheerder.users.create') }}"
                class="bg-blue-600 text-black px-4 py-2 rounded">
                 Gebruiker toevoegen
             </a>
@@ -15,7 +15,13 @@
             </div>
         @endif
 
-        <form method="GET" action="{{ route('admin.users.index') }}" class="mb-4 flex gap-2">
+        @if(session('error'))
+            <div class="mb-4 text-red-600">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <form method="GET" action="{{ route('beheerder.users.index') }}" class="mb-4 flex gap-2">
             <input type="text"
                    name="search"
                    value="{{ request('search') }}"
@@ -24,7 +30,7 @@
 
                 <select name="role" class="border p-2 rounded">
                     <option value="">Alle rollen</option>
-                    <option value="admin" @selected(request('role') === 'admin')>Admin</option>
+                    <option value="beheerder" @selected(request('role') === 'beheerder')>beheerder</option>
                     <option value="ophaler" @selected(request('role') === 'ophaler')>Ophaler</option>
                     <option value="invoerder" @selected(request('role') === 'invoerder')>Invoerder</option>
                 </select>
@@ -33,7 +39,7 @@
                 Zoeken
             </button>
 
-            <a href="{{ route('admin.users.index') }}"
+            <a href="{{ route('beheerder.users.index') }}"
                class="bg-gray-300 text-black px-4 py-2 rounded">
                 Reset
             </a>
@@ -57,13 +63,13 @@
                         <td class="border p-2">{{ $user->role }}</td>
 
                         <td class="border p-2">
-                            <a href="{{ route('admin.users.edit', $user) }}"
+                            <a href="{{ route('beheerder.users.edit', $user) }}"
                                class="text-blue-600">
                                 Bewerken
                             </a>
 
                             <form method="POST"
-                                  action="{{ route('admin.users.destroy', $user) }}"
+                                  action="{{ route('beheerder.users.destroy', $user) }}"
                                   class="inline">
                                 @csrf
                                 @method('DELETE')

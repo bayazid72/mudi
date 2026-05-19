@@ -2,7 +2,7 @@
     <div class="max-w-xl mx-auto mt-10 bg-white p-6 rounded shadow">
         <h1 class="text-2xl font-bold mb-4">Gebruiker bewerken</h1>
 
-        <form method="POST" action="{{ route('admin.users.update', $user) }}">
+        <form method="POST" action="{{ route('beheerder.users.update', $user) }}">
             @csrf
             @method('PUT')
 
@@ -23,7 +23,7 @@
             <div class="mb-4">
                 <label class="block mb-1">Rol</label>
                 <select name="role" class="w-full border p-2 rounded">
-                    <option value="admin" @selected(old('role', $user->role ?? '') === 'admin')>Admin</option>
+                    <option value="beheerder" @selected(old('role', $user->role ?? '') === 'beheerder')>beheerder</option>
                     <option value="ophaler" @selected(old('role', $user->role ?? '') === 'ophaler')>Ophaler</option>
                     <option value="invoerder" @selected(old('role', $user->role ?? '') === 'invoerder')>Invoerder</option>
                 </select>

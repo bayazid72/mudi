@@ -6,11 +6,11 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminMiddleware
+class BeheerderMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->role !== 'admin') {
+        if (auth()->user()->role !== 'beheerder') {
             abort(403);
         }
 

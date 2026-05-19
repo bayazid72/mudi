@@ -6,16 +6,16 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class AdminSeeder extends Seeder
+class GebruikerSeeder extends Seeder
 {
     public function run(): void
     {
         User::updateOrCreate(
             ['email' => 'Beheerder@gmail.com'],
             [
-                'name' => 'Admin',
+                'name' => 'beheerder',
                 'password' => Hash::make('123'),
-                'role' => 'admin',
+                'role' => 'beheerder',
             ]
         );
         User::updateOrCreate(

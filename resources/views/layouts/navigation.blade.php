@@ -4,11 +4,11 @@
             <div class="flex">
                 <div class="flex items-center">
                     <a href="{{ route('dashboard') }}" class="font-bold text-xl text-gray-800 dark:text-white">
-                        Mudi
+                        LOGO
                     </a>
                 </div>
 
-                
+
                 @if(Auth::user()->role === 'admin')
                     <div class="hidden sm:flex sm:ml-10 space-x-8">
                         <a href="{{ route('admin.users.index') }}" class="inline-flex items-center text-gray-700 dark:text-gray-300">

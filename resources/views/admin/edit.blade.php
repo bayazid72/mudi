@@ -23,9 +23,9 @@
             <div class="mb-4">
                 <label class="block mb-1">Rol</label>
                 <select name="role" class="w-full border p-2 rounded">
-                    <option value="user" @selected($user->role === 'user')>Gebruiker</option>
-                    <option value="admin" @selected($user->role === 'admin')>Admin</option>
-                    
+                    <option value="admin" @selected(old('role', $user->role ?? '') === 'admin')>Admin</option>
+                    <option value="ophaler" @selected(old('role', $user->role ?? '') === 'ophaler')>Ophaler</option>
+                    <option value="invoerder" @selected(old('role', $user->role ?? '') === 'invoerder')>Invoerder</option>
                 </select>
                 @error('role') <p class="text-red-500">{{ $message }}</p> @enderror
             </div>

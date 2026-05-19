@@ -22,11 +22,12 @@
                    placeholder="Zoek naam of email..."
                    class="border p-2 rounded w-full">
 
-            <select name="role" class="border p-2 rounded">
-                <option value="">Alle rollen</option>
-                <option value="admin" @selected(request('role') === 'admin')>Admin</option>
-                <option value="user" @selected(request('role') === 'user')>Gebruiker</option>
-            </select>
+                <select name="role" class="border p-2 rounded">
+                    <option value="">Alle rollen</option>
+                    <option value="admin" @selected(request('role') === 'admin')>Admin</option>
+                    <option value="ophaler" @selected(request('role') === 'ophaler')>Ophaler</option>
+                    <option value="invoerder" @selected(request('role') === 'invoerder')>Invoerder</option>
+                </select>
 
             <button class="bg-blue-600 text-black px-4 py-2 rounded">
                 Zoeken

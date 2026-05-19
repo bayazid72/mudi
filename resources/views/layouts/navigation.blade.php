@@ -16,6 +16,22 @@
                         </a>
                     </div>
                 @endif
+               {{-- invoerder.medlingen.create --}}
+                @if(Auth::user()->role === 'invoerder')
+                    <div class="hidden sm:flex sm:ml-10 space-x-8">
+                        <a href="{{ route('beheerder.users.index') }}" class="inline-flex items-center text-gray-700 dark:text-gray-300">
+                            Melding maken
+                        </a>
+                    </div>
+                @endif
+                {{-- ophaler.medlingen.index --}}
+                @if(in_array(Auth::user()->role, ['ophaler', 'beheerder']))
+                    <div class="hidden sm:flex sm:ml-10 space-x-8">
+                        <a href="{{ route('beheerder.users.index') }}" class="inline-flex items-center text-gray-700 dark:text-gray-300">
+                            Medlingen
+                        </a>
+                    </div>
+                @endif
             </div>
 
             <div class="flex items-center space-x-4">
